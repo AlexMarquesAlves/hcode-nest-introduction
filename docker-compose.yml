@@ -11,7 +11,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./:/usr/src/api
+      - . :/usr/src/api
     # depends_on:
     #   - db
   prod:
@@ -25,7 +25,7 @@ services:
     ports:
       - "3001:3001"
     volumes:
-    - ./:/usr/src/api
+    - . :/usr/src/api
     # depends_on:
     #   - db
   # db:

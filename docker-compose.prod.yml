@@ -11,7 +11,7 @@ services:
     ports:
       - 3001:3001
     volumes:
-      - ./src:/usr/src/api/src
+      - .\src:/usr/src/api/src
   mysql_db:
     image: mysql
     ports:

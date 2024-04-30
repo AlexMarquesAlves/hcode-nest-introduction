@@ -11,9 +11,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./src:/usr/src/api/src
-    # depends_on:
-    #   - db
+      - .\src:/usr/src/api/src
   mysql_db:
     image: mysql
     ports:

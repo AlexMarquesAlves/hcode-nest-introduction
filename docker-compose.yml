@@ -1,7 +1,9 @@
 version: '3.8'
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgres://nest_username:nest_password@db:5432/nest_dbname
@@ -12,6 +14,7 @@ services:
       - db
   db:
     image: postgres:13
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=nest_username
       - POSTGRES_nest_PASSWORD=password

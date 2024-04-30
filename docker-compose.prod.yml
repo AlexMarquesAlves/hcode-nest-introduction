@@ -1,17 +1,17 @@
 version: '3.8'
 services:
-  dev:
+  prod:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     environment:
-      - NODE_ENV=development
-      - PORT=3000
+      - NODE_ENV=production
+      - PORT=3001
       # - DATABASE_URL=postgres://nest_username:nest_password@db:5432/nest_dbname
     ports:
-      - 3000:3000
+      - 3001:3001
     volumes:
-      - ./src:/usr/src/api/src
+    - ./src:/usr/src/api/src
     # depends_on:
     #   - db
   # db:

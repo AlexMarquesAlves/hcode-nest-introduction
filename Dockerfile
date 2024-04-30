@@ -5,7 +5,7 @@ COPY ./ ./
 COPY ./.env.production ./.env
 
 RUN yarn install --quiet --no-optional --no-fund --loglevel=error
-RUN build
+RUN yarn run build
 
 
 CMD ["yarn", "run", "start:prod"]

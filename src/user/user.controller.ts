@@ -43,10 +43,15 @@ export class UserController {
   }
 
   @Patch(':id')
-  async updatePartial(@Body() body, @Param() params) {
+  async updatePartial(
+    @Body() { name, email, password }: UpdatePutUserDTO,
+    @Param() params,
+  ) {
     return {
       method: 'PATCH',
-      body,
+      name,
+      email,
+      password,
       params,
     }
   }

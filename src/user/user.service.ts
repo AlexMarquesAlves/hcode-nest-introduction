@@ -30,6 +30,8 @@ export class UserService {
   }
 
   async show(id: number) {
+    await this.exists(id)
+
     return this.prisma.user.findUnique({
       where: {
         id,
@@ -41,6 +43,8 @@ export class UserService {
     id: number,
     { name, email, password, birthAt }: UpdatePutUserDTO,
   ) {
+    await this.exists(id)
+
     return this.prisma.user.update({
       where: { id },
       data: {
@@ -56,6 +60,8 @@ export class UserService {
     id: number,
     { name, email, password, birthAt }: UpdatePatchUserDTO,
   ) {
+    await this.exists(id)
+
     const data: any = {}
 
     if (birthAt) data.birthAt = new Date(birthAt)
@@ -71,14 +77,18 @@ export class UserService {
   }
 
   async delete(id: number) {
-    if (!(await this.show(id))) {
-      throw new NotFoundException(`That user ${id} doesn't exist`)
-    }
+    await this.exists(id)
 
     return this.prisma.user.delete({
       where: {
         id,
       },
     })
+  }
+
+  async exists(id: number) {
+    if (!(await this.show(id))) {
+      throw new NotFoundException(`That user ${id} doesn't exist`)
+    }
   }
 }

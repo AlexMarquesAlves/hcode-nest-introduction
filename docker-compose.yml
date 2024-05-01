@@ -7,7 +7,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3000
-      - DATABASE_URL=mysql://nest_username:nest_password@localhost:3306/nest_database
+      - DATABASE_URL='mysql://user:password@localhost:3306/db'
     ports:
       - 3000:3000
     volumes:

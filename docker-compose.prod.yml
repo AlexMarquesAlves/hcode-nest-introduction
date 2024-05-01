@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile.prod
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=mysql://root:root@mysql_db:5432/nest_database
+      - DATABASE_URL=mysql://root:root@mysql_db:3306/nest_database
     ports:
       - 3001:3001
     volumes:

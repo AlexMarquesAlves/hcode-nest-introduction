@@ -8,7 +8,7 @@ export class UserController {
   }
 
   @Get()
-  async read(@Body() body) {
-    return { body }
+  async read() {
+    return { users: [] }
   }
 }

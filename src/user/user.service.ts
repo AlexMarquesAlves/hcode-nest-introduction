@@ -13,11 +13,10 @@ export class UserService {
         email,
         password,
       },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-      },
     })
+  }
+
+  async list() {
+    return this.prisma.user.findMany({})
   }
 }

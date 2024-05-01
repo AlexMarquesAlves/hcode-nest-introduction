@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post } from '@nestjs/common'
 
 @Controller('users')
 export class UserController {
@@ -10,5 +10,10 @@ export class UserController {
   @Get()
   async read() {
     return { users: [] }
+  }
+
+  @Get(':id')
+  async readOne(@Param() param) {
+    return { user: {}, param }
   }
 }

@@ -29,8 +29,8 @@ export class UserController {
   }
 
   @Get(':id')
-  async show(@Param('id', ParseIntPipe) id) {
-    return { user: {}, id }
+  async show(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.show(id)
   }
 
   @Put(':id')

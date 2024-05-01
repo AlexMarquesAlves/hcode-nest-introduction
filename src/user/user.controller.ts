@@ -8,12 +8,12 @@ export class UserController {
   }
 
   @Get()
-  async read() {
+  async list() {
     return { users: [] }
   }
 
   @Get(':id')
-  async readOne(@Param() param) {
-    return { user: {}, param }
+  async show(@Param() params) {
+    return { user: {}, params }
   }
 }

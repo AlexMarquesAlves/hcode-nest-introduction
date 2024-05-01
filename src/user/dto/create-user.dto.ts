@@ -11,9 +11,10 @@ export class CreateUserDTO {
 
   @IsStrongPassword({
     minLength: 6,
-    // minLowercase: 1,
-    // minUppercase: 1,
-    // minNumbers: 1,
+    minLowercase: 0,
+    minUppercase: 0,
+    minNumbers: 0,
+    minSymbols: 0,
   })
   password: string
 }

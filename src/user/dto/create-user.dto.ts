@@ -1,4 +1,5 @@
 import {
+  IsDateString,
   IsEmail,
   IsOptional,
   IsString,
@@ -9,7 +10,6 @@ export class CreateUserDTO {
   @IsString()
   name: string
 
-  @IsOptional()
   @IsEmail()
   email: string
 
@@ -21,4 +21,8 @@ export class CreateUserDTO {
     minSymbols: 0,
   })
   password: string
+
+  @IsOptional()
+  @IsDateString()
+  birthAt: string
 }

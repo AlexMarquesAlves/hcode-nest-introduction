@@ -19,8 +19,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() { name, email, password }: CreateUserDTO) {
-    return this.userService.create({ name, email, password })
+  async create(@Body() data: CreateUserDTO) {
+    return this.userService.create(data)
   }
 
   @Get()

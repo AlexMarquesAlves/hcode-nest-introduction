@@ -2,3 +2,6 @@ GET http://localhost:3000
 
 ###
 GET http://localhost:3001
+
+###
+POST  http://localhost:3000/users

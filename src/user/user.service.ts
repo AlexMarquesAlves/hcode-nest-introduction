@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { seed } from '../seed'
 import { CreateUserDTO } from './dto/create-user.dto'
@@ -71,6 +71,10 @@ export class UserService {
   }
 
   async delete(id: number) {
+    if (!(await this.show(id))) {
+      throw new NotFoundException(`That user ${id} doesn't exist`)
+    }
+
     return this.prisma.user.delete({
       where: {
         id,

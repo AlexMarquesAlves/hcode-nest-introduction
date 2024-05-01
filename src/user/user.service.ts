@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { seed } from '../seed'
 import { CreateUserDTO } from './dto/create-user.dto'
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto'
 import { UpdatePutUserDTO } from './dto/update-put-user.dto'
@@ -15,6 +16,12 @@ export class UserService {
         email,
         password,
       },
+    })
+  }
+
+  async createMany() {
+    return this.prisma.user.createMany({
+      data: seed,
     })
   }
 

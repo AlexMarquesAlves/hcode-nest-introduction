@@ -10,7 +10,7 @@ export class LogInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap(() => {
-        console.log(`A execução levou ${Date.now() - dt}`)
+        console.log(`A execução levou ${Date.now() - dt} milisegundos`)
       }),
     )
   }

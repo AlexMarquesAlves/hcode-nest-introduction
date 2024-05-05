@@ -7,9 +7,9 @@ import {
   Patch,
   Post,
   Put,
-} from '@nestjs/common'
+} from "@nestjs/common"
 
-@Controller('users')
+@Controller("users")
 export class UserController {
   @Post()
   async create(@Body() body) {
@@ -21,30 +21,30 @@ export class UserController {
     return { users: [] }
   }
 
-  @Get(':id')
+  @Get(":id")
   async show(@Param() params) {
     return { user: {}, params }
   }
 
-  @Put(':id')
+  @Put(":id")
   async update(@Body() body, @Param() params) {
     return {
-      method: 'PUT',
+      method: "PUT",
       body,
       params,
     }
   }
 
-  @Patch(':id')
+  @Patch(":id")
   async updatePartial(@Body() body, @Param() params) {
     return {
-      method: 'PATCH',
+      method: "PATCH",
       body,
       params,
     }
   }
 
-  @Delete(':id')
+  @Delete(":id")
   async delete(@Param() params) {
     return {
       params,

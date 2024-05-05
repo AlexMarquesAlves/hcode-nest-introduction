@@ -7,7 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Put
+  Put,
 } from '@nestjs/common'
 import { CreateUserDTO } from './dto/create-user.dto'
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto'

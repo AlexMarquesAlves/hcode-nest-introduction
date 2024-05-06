@@ -35,7 +35,7 @@ export class AuthController {
   }
 
   @Post('me')
-  async me(@Body() body:AuthMeDTO) {
+  async me(@Body() body: AuthMeDTO) {
     return this.authService.checkToken(body.token)
   }
 }

@@ -8,4 +8,8 @@ export class AuthService {
   async createToken() {
     // return this.JWTService.sign()
   }
+
+  async checkToken(token: string) {
+    // return this.JWTService.verify(token)
+  }
 }

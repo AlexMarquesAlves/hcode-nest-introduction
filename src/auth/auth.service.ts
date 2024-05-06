@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { PrismaService } from 'src/prisma/prisma.service'
 
@@ -18,12 +18,16 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
-    this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: { email, password },
     })
+
+    if (!user) {
+      throw new UnauthorizedException(`E-mail e/ou senha incorretos.`)
+    }
+
+    return user
   }
 
-  async forget() {}
 
-  async reset() {}
 }

@@ -15,4 +15,4 @@ import { AuthService } from './auth.service'
   providers: [AuthService],
   exports: [AuthService],
 })
-export class AuthModules {}
+export class AuthModule {}

@@ -32,7 +32,10 @@ export class AuthService {
   }
 
   async checkToken(token: string) {
-    // return this.JWTService.verify(token)
+    return this.JWTService.verify(token, {
+      issuer: `login`,
+      audience: `users`,
+    })
   }
 
   async login(email: string, password: string) {

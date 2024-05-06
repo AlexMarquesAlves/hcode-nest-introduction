@@ -39,7 +39,7 @@ export class AuthService {
       throw new UnauthorizedException(`E-mail e/ou senha incorretos.`)
     }
 
-    return user
+    return this.createToken(user)
   }
 
   async forget(email: string) {
@@ -61,13 +61,14 @@ export class AuthService {
 
     const id = 0
 
-    await this.prisma.user.update({
+    const user = await this.prisma.user.update({
       where: { id },
       data: {
         password,
       },
     })
 
-    return true
+    return this.createToken(user)
+
   }
 }

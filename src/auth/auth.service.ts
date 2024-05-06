@@ -25,9 +25,9 @@ export class AuthService {
           expiresIn: '7 days',
           subject: String(user.id),
           issuer: `login`,
-          audience: `users`
+          audience: `users`,
         },
-      )
+      ),
     }
   }
 
@@ -74,15 +74,11 @@ export class AuthService {
     })
 
     return this.createToken(user)
-
   }
 
-
-  async register(data:AuthRegisterDTO) {
+  async register(data: AuthRegisterDTO) {
     const user = await this.userService.create(data)
 
     return this.createToken(user)
   }
-
-
 }

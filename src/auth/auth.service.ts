@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service'
@@ -7,6 +11,9 @@ import { AuthRegisterDTO } from './dto/auth-register.dto'
 
 @Injectable()
 export class AuthService {
+  private issuer = `login`
+  private audience = `users`
+
   constructor(
     private readonly JWTService: JwtService,
     private readonly prisma: PrismaService,
@@ -24,8 +31,8 @@ export class AuthService {
         {
           expiresIn: '7 days',
           subject: String(user.id),
-          issuer: `login`,
-          audience: `users`,
+          issuer: this.issuer,
+          audience: this.audience,
         },
       ),
     }
@@ -34,13 +41,22 @@ export class AuthService {
   async checkToken(token: string) {
     try {
       const data = await this.JWTService.verify(token, {
-        issuer: `login`,
-        audience: `users`,
+        issuer: this.issuer,
+        audience: this.audience,
       })
 
       return data
     } catch (error) {
       throw new BadRequestException(error)
+    }
+  }
+
+  async isValidToken(token: string) {
+    try {
+      this.checkToken(token)
+      return true
+    } catch (error) {
+      return false
     }
   }
 
@@ -70,6 +86,7 @@ export class AuthService {
     return true
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async reset(password: string, token: string) {
     // TODO Validar o token...
 

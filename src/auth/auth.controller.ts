@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common'
 import { AuthForgetDTO } from './dto/auth-forget.dto'
 import { AuthLoginDTO } from './dto/auth-login.dto'
 import { AuthRegisterDTO } from './dto/auth-register.dto'
+import { AuthResetDTO } from './dto/auth-reset.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -13,4 +14,7 @@ export class AuthController {
 
   @Post('forget')
   async forget(@Body() body: AuthForgetDTO) {}
+
+  @Post('reset')
+  async reset(@Body() body: AuthResetDTO) {}
 }

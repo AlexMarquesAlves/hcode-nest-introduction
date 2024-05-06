@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
+import { User } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
@@ -9,8 +10,20 @@ export class AuthService {
     private readonly prisma: PrismaService,
   ) {}
 
-  async createToken() {
-    // return this.JWTService.sign()
+  async createToken(user: User) {
+    return this.JWTService.sign(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+      {
+        expiresIn: '7 days',
+        subject: String(user.id),
+        issuer: `login`,
+        audience: `users`
+      },
+    )
   }
 
   async checkToken(token: string) {

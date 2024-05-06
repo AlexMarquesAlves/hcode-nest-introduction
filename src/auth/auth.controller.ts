@@ -8,11 +8,14 @@ import { AuthResetDTO } from './dto/auth-reset.dto'
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly userService: UserService, private readonly authService:AuthService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post('login')
-  async login(@Body() {email, password}: AuthLoginDTO) {
-    return this.authService.login(email,password)
+  async login(@Body() { email, password }: AuthLoginDTO) {
+    return this.authService.login(email, password)
   }
 
   @Post('register')
@@ -21,13 +24,12 @@ export class AuthController {
   }
 
   @Post('forget')
-  async forget(@Body() {email}: AuthForgetDTO) {
+  async forget(@Body() { email }: AuthForgetDTO) {
     return this.authService.forget(email)
   }
 
   @Post('reset')
-  async reset(@Body() {password,token}: AuthResetDTO) {
-    return this.authService.reset(password,token)
-
+  async reset(@Body() { password, token }: AuthResetDTO) {
+    return this.authService.reset(password, token)
   }
 }

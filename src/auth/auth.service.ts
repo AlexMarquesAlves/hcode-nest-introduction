@@ -29,5 +29,19 @@ export class AuthService {
     return user
   }
 
+  async forget(email: string) {
+    const user = await this.prisma.user.findFirst({
+      where: { email },
+    })
+
+    if (!user) {
+      throw new UnauthorizedException(`E-mail está incorreto.`)
+    }
+
+    // TODO Enviar o e-mail...
+
+    return true
+  }
+
 
 }

@@ -10,6 +10,7 @@ import { PrismaModule } from 'src/prisma/prisma.module'
 import { UserController } from './user.controller'
 import { UserService } from './user.service'
 
+// TODO resolver dependência circular
 @Module({
   imports: [PrismaModule, AuthModule],
   controllers: [UserController],

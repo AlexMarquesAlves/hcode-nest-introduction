@@ -1,9 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, Headers, Post } from '@nestjs/common'
 import { UserService } from 'src/user/user.service'
 import { AuthService } from './auth.service'
 import { AuthForgetDTO } from './dto/auth-forget.dto'
 import { AuthLoginDTO } from './dto/auth-login.dto'
-import { AuthMeDTO } from './dto/auth-me.dto'
 import { AuthRegisterDTO } from './dto/auth-register.dto'
 import { AuthResetDTO } from './dto/auth-reset.dto'
 
@@ -35,7 +34,7 @@ export class AuthController {
   }
 
   @Post('me')
-  async me(@Body() body: AuthMeDTO) {
-    return this.authService.checkToken(body.token)
+  async me(@Headers("authorization") token) {
+    return this.authService.checkToken((token??'').split(' ')[1])
   }
 }

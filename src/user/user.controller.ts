@@ -1,13 +1,15 @@
-import { Body, Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Patch, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common'
 import { ParamId } from 'src/decorators/param-id.decorator'
 import { Roles } from 'src/decorators/roles.decorator'
 import { Role } from 'src/enums/role.enum'
+import { RoleGuard } from 'src/guards/role.guard'
+import { LogInterceptor } from 'src/interceptors/log.interceptor'
 import { CreateUserDTO } from './dto/create-user.dto'
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto'
 import { UpdatePutUserDTO } from './dto/update-put-user.dto'
 import { UserService } from './user.service'
-
-// @UseInterceptors(LogInterceptor)
+@UseGuards(RoleGuard)
+@UseInterceptors(LogInterceptor)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}

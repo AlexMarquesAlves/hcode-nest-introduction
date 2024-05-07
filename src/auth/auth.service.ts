@@ -20,7 +20,7 @@ export class AuthService {
     private readonly userService: UserService,
   ) {}
 
-   createToken(user: User) {
+  createToken(user: User) {
     return {
       accessToken: this.JWTService.sign(
         {
@@ -38,7 +38,7 @@ export class AuthService {
     }
   }
 
-   checkToken(token: string) {
+  checkToken(token: string) {
     try {
       const data = this.JWTService.verify(token, {
         issuer: this.issuer,
@@ -51,7 +51,7 @@ export class AuthService {
     }
   }
 
-   isValidToken(token: string) {
+  isValidToken(token: string) {
     try {
       this.checkToken(token)
       return true

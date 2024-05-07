@@ -2,13 +2,14 @@ import { Body, Controller, Delete, Get, Patch, Post, Put, UseGuards, UseIntercep
 import { ParamId } from 'src/decorators/param-id.decorator'
 import { Roles } from 'src/decorators/roles.decorator'
 import { Role } from 'src/enums/role.enum'
+import { AuthGuard } from 'src/guards/auth.guard'
 import { RoleGuard } from 'src/guards/role.guard'
 import { LogInterceptor } from 'src/interceptors/log.interceptor'
 import { CreateUserDTO } from './dto/create-user.dto'
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto'
 import { UpdatePutUserDTO } from './dto/update-put-user.dto'
 import { UserService } from './user.service'
-@UseGuards(RoleGuard)
+@UseGuards(AuthGuard, RoleGuard)
 @UseInterceptors(LogInterceptor)
 @Controller('users')
 export class UserController {

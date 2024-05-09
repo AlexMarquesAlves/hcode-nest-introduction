@@ -52,14 +52,14 @@ export class UserService {
         email,
         password,
         birthAt: birthAt ? new Date(birthAt) : null,
-        role
+        role,
       },
     })
   }
 
   async updatePartial(
     id: number,
-    { name, email, password, birthAt,role }: UpdatePatchUserDTO,
+    { name, email, password, birthAt, role }: UpdatePatchUserDTO,
   ) {
     await this.exists(id)
 

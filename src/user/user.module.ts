@@ -13,7 +13,7 @@ import { UserService } from './user.service'
 
 // TODO resolver dependência circular
 @Module({
-  imports: [PrismaModule, forwardRef(()=>AuthModule)],
+  imports: [PrismaModule, forwardRef(() => AuthModule)],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

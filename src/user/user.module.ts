@@ -3,6 +3,7 @@ import {
   Module,
   NestModule,
   RequestMethod,
+  forwardRef,
 } from '@nestjs/common'
 import { UserIdCheckMiddleware } from 'src/Middlewares/user-id-check.Middleware'
 import { AuthModule } from 'src/auth/auth.module'
@@ -12,7 +13,7 @@ import { UserService } from './user.service'
 
 // TODO resolver dependência circular
 @Module({
-  imports: [PrismaModule, AuthModule],
+  imports: [PrismaModule, forwardRef(()=>AuthModule)],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

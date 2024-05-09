@@ -5,9 +5,11 @@ import {
 } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
+import * as bcrypt from 'bcrypt'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { UserService } from 'src/user/user.service'
 import { AuthRegisterDTO } from './dto/auth-register.dto'
+
 
 @Injectable()
 export class AuthService {
@@ -62,10 +64,14 @@ export class AuthService {
 
   async login(email: string, password: string) {
     const user = await this.prisma.user.findFirst({
-      where: { email, password },
+      where: { email },
     })
 
     if (!user) {
+      throw new UnauthorizedException(`E-mail e/ou senha incorretos.`)
+    }
+
+    if (!await bcrypt.compare(password, user.password)){
       throw new UnauthorizedException(`E-mail e/ou senha incorretos.`)
     }
 

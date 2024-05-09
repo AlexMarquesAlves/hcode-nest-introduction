@@ -49,7 +49,6 @@ export class UserService {
 
     const salt = await bcrypt.genSalt()
     console.log(salt)
-
     password = await bcrypt.hash(password, salt)
 
 
@@ -77,7 +76,12 @@ export class UserService {
 
     if (name) data.name = name
     if (email) data.email = email
-    if (password) data.password = password
+    if (password) {
+      const salt = await bcrypt.genSalt()
+      console.log(salt)
+
+      data.password = await bcrypt.hash(password, salt)
+    }
     if (role) data.role = role
 
     return this.prisma.user.update({

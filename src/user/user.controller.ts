@@ -7,7 +7,7 @@ import {
   Post,
   Put,
   UseGuards,
-  UseInterceptors,
+  UseInterceptors
 } from '@nestjs/common'
 import { ParamId } from 'src/decorators/param-id.decorator'
 import { Roles } from 'src/decorators/roles.decorator'
@@ -37,13 +37,13 @@ export class UserController {
     return this.userService.createMany()
   }
 
-  @Roles(Role.Admin)
+  @Roles(Role.Admin, Role.User)
   @Get()
   async list() {
     return this.userService.list()
   }
 
-  @Roles(Role.Admin)
+
   @Get(':id')
   async show(@ParamId() id: number) {
     return this.userService.show(id)

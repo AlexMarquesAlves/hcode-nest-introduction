@@ -40,4 +40,10 @@ export class AuthController {
   async me(@User() user) {
     return { user }
   }
+
+  @UseGuards(AuthGuard)
+  @Post('photo')
+  async uploadPhoto(@User() user, @Body('file') photo) {
+    return { user, photo }
+  }
 }

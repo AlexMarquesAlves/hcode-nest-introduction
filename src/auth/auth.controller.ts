@@ -1,4 +1,12 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
 import { User } from 'src/decorators/user.decorator'
 import { AuthGuard } from 'src/guards/auth.guard'
 import { UserService } from 'src/user/user.service'
@@ -41,9 +49,10 @@ export class AuthController {
     return { user }
   }
 
+  @UseInterceptors(FileInterceptor('file'))
   @UseGuards(AuthGuard)
   @Post('photo')
-  async uploadPhoto(@User() user, @Body('file') photo) {
+  async uploadPhoto(@User() user, @UploadedFile() photo: Express.Multer.File) {
     return { user, photo }
   }
 }

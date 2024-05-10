@@ -12,7 +12,7 @@ import { UserModule } from './user/user.module'
     ConfigModule.forRoot(),
     ThrottlerModule.forRoot({
       ttl: 60,
-      limit: 10,
+      limit: 100,
     }),
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),

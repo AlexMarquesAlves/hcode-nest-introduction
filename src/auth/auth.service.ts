@@ -1,3 +1,4 @@
+import { MailerService } from '@nestjs-modules/mailer/dist'
 import {
   BadRequestException,
   Injectable,
@@ -10,7 +11,6 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { UserService } from 'src/user/user.service'
 import { AuthRegisterDTO } from './dto/auth-register.dto'
 
-
 @Injectable()
 export class AuthService {
   private issuer = `login`
@@ -20,6 +20,7 @@ export class AuthService {
     private readonly JWTService: JwtService,
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
+    private readonly mailer: MailerService,
   ) {}
 
   createToken(user: User) {
@@ -71,7 +72,7 @@ export class AuthService {
       throw new UnauthorizedException(`E-mail e/ou senha incorretos.`)
     }
 
-    if (!await bcrypt.compare(password, user.password)){
+    if (!(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException(`E-mail e/ou senha incorretos.`)
     }
 
@@ -87,7 +88,25 @@ export class AuthService {
       throw new UnauthorizedException(`E-mail está incorreto.`)
     }
 
-    // TODO Enviar o e-mail...
+    const token = this.JWTService.sign(
+      { id: user.id },
+      {
+        expiresIn: '30 minutos',
+        subject: String(user.id),
+        issuer: 'forget',
+        audience: 'user',
+      },
+    )
+
+    await this.mailer.sendMail({
+      subject: 'Recuperação de senha',
+      to: 'atanaelleonardo@gmail.com',
+      template: 'forget',
+      context: {
+        name: user.name,
+        token,
+      },
+    })
 
     return true
   }

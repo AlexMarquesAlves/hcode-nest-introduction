@@ -9,4 +9,8 @@
     "editor.formatOnSave": true
   },
   "material-icon-theme.activeIconPack": "nest",
+  "cSpell.words": [
+    "posttest",
+    "preprod"
+  ],
 }

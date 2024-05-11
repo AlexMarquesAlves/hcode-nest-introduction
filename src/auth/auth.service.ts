@@ -4,7 +4,6 @@ import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.ex
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
-import { PrismaService } from 'src/prisma/prisma.service'
 import { UserService } from 'src/user/user.service'
 import { AuthRegisterDTO } from './dto/auth-register.dto'
 
@@ -15,7 +14,6 @@ export class AuthService {
 
   constructor(
     private readonly jwtService: JwtService,
-    private readonly prisma: PrismaService,
     private readonly userService: UserService,
     private readonly mailer: MailerService,
   ) {}

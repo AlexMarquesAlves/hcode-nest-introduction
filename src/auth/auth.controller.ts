@@ -7,9 +7,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { writeFile } from 'fs/promises'
 import { join } from 'path'
 import { User } from 'src/decorators/user.decorator'
+import { FileService } from 'src/file/file.service'
 import { AuthGuard } from 'src/guards/auth.guard'
 import { UserService } from 'src/user/user.service'
 import { AuthService } from './auth.service'
@@ -23,6 +23,7 @@ export class AuthController {
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
+    private readonly fileService: FileService,
   ) {}
 
   @Post('login')
@@ -55,11 +56,17 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('photo')
   async uploadPhoto(@User() user, @UploadedFile() photo: Express.Multer.File) {
-    const result = await writeFile(
-      join(__dirname, '..', '..', 'storage', 'photos', `photo-${user.id}.png`),
-      photo.buffer,
+    const path = join(
+      __dirname,
+      '..',
+      '..',
+      'storage',
+      'photos',
+      `photo-${user.id}.png`,
     )
 
-    return { result }
+    this.fileService.upload(photo, path)
+
+    return { success: true }
   }
 }

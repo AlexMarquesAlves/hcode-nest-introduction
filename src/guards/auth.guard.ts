@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
       request.user = await this.userService.show(data.id)
 
       return true
-    } catch (error) {
+    } catch (e) {
       return false
     }
   }

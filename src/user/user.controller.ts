@@ -32,11 +32,6 @@ export class UserController {
     return this.userService.create(data)
   }
 
-  @Post('many')
-  async createMany() {
-    return this.userService.createMany()
-  }
-
   @Get()
   async list() {
     return this.userService.list()

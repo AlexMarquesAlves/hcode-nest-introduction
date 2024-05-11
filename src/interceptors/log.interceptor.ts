@@ -12,7 +12,7 @@ export class LogInterceptor implements NestInterceptor {
 
         console.log(`URL: ${request.url}`)
         console.log(`METHOD: ${request.method}`)
-        console.log(`Execução levou: ${Date.now() - dt} milissegundos.`)
+        console.log(`Execução levou: ${Date.now() - dt} milisegundos.`)
       }),
     )
   }

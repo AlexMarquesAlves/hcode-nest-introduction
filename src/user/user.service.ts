@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { seed } from '../seed'
 import { CreateUserDTO } from './dto/create-user.dto'
 import { UpdatePatchUserDTO } from './dto/update-patch-user.dto'
 import { UpdatePutUserDTO } from './dto/update-put-user.dto'
@@ -10,25 +9,18 @@ import { UpdatePutUserDTO } from './dto/update-put-user.dto'
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create({ name, email, password }: CreateUserDTO) {
+  async create(data: CreateUserDTO) {
     const salt = await bcrypt.genSalt()
-    console.log(salt)
 
-    password = await bcrypt.hash(password, salt)
+    data.password = await bcrypt.hash(data.password, salt)
 
     return this.prisma.user.create({
-      data: { name, email, password },
-    })
-  }
-
-  async createMany() {
-    return this.prisma.user.createMany({
-      data: seed,
+      data,
     })
   }
 
   async list() {
-    return this.prisma.user.findMany({})
+    return this.prisma.user.findMany()
   }
 
   async show(id: number) {
@@ -43,50 +35,62 @@ export class UserService {
 
   async update(
     id: number,
-    { name, email, password, birthAt, role }: UpdatePutUserDTO,
+    { email, name, password, birthAt, role }: UpdatePutUserDTO,
   ) {
     await this.exists(id)
 
     const salt = await bcrypt.genSalt()
-    console.log(salt)
+
     password = await bcrypt.hash(password, salt)
 
-
     return this.prisma.user.update({
-      where: { id },
       data: {
-        name,
         email,
+        name,
         password,
         birthAt: birthAt ? new Date(birthAt) : null,
         role,
+      },
+      where: {
+        id,
       },
     })
   }
 
   async updatePartial(
     id: number,
-    { name, email, password, birthAt, role }: UpdatePatchUserDTO,
+    { email, name, password, birthAt, role }: UpdatePatchUserDTO,
   ) {
     await this.exists(id)
 
     const data: any = {}
 
-    if (birthAt) data.birthAt = new Date(birthAt)
+    if (birthAt) {
+      data.birthAt = new Date(birthAt)
+    }
 
-    if (name) data.name = name
-    if (email) data.email = email
+    if (email) {
+      data.email = email
+    }
+
+    if (name) {
+      data.name = name
+    }
+
     if (password) {
       const salt = await bcrypt.genSalt()
-      console.log(salt)
-
       data.password = await bcrypt.hash(password, salt)
     }
-    if (role) data.role = role
+
+    if (role) {
+      data.role = role
+    }
 
     return this.prisma.user.update({
-      where: { id },
-      data: { name, email, password, birthAt },
+      data,
+      where: {
+        id,
+      },
     })
   }
 
@@ -103,10 +107,12 @@ export class UserService {
   async exists(id: number) {
     if (
       !(await this.prisma.user.count({
-        where: { id },
+        where: {
+          id,
+        },
       }))
     ) {
-      throw new NotFoundException(`That user ${id} doesn't exist`)
+      throw new NotFoundException(`O usuário ${id} não existe.`)
     }
   }
 }

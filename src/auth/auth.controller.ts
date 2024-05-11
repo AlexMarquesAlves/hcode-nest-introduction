@@ -6,11 +6,10 @@ import {
   MaxFileSizeValidator,
   ParseFilePipe,
   Post,
-  UploadedFile,
-  UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
+import { UploadedFile, UploadedFiles } from '@nestjs/common/decorators'
 import {
   FileFieldsInterceptor,
   FileInterceptor,
@@ -69,7 +68,7 @@ export class AuthController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          new FileTypeValidator({ fileType: 'image/*' }),
+          new FileTypeValidator({ fileType: 'image/png' }),
           new MaxFileSizeValidator({ maxSize: 1024 * 500 }),
         ],
       }),
@@ -87,11 +86,11 @@ export class AuthController {
 
     try {
       await this.fileService.upload(photo, path)
-    } catch (error) {
-      throw new BadRequestException(error)
+    } catch (e) {
+      throw new BadRequestException(e)
     }
 
-    return { success: true }
+    return { photo }
   }
 
   @UseInterceptors(FilesInterceptor('files'))
@@ -101,7 +100,7 @@ export class AuthController {
     @User() user,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return { files }
+    return files
   }
 
   @UseInterceptors(
@@ -112,17 +111,17 @@ export class AuthController {
       },
       {
         name: 'documents',
-        maxCount: 5,
+        maxCount: 10,
       },
     ]),
   )
   @UseGuards(AuthGuard)
-  @Post('files-field')
+  @Post('files-fields')
   async uploadFilesFields(
     @User() user,
     @UploadedFiles()
-    files: { photos: Express.Multer.File; documents: Express.Multer.File },
+    files: { photo: Express.Multer.File; documents: Express.Multer.File[] },
   ) {
-    return { files }
+    return files
   }
 }

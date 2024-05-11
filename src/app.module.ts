@@ -9,6 +9,10 @@ import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
 
+const mailHost = process.env.MAIL_HOST
+const mailUser = process.env.MAIL_USER
+const mailPass = process.env.MAIL_PASSWORD
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -16,13 +20,13 @@ import { UserModule } from './user/user.module'
       ttl: 60,
       limit: 100,
     }),
-    // MODULES
+    // OWN MODULES
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
-
+    // Mailer
     MailerModule.forRootAsync({
       useFactory: () => ({
-        transport: 'smtps://user@domain.com:pass@smtp.domain.com',
+        transport: `smtps://${mailUser}:${mailPass}@${mailHost}`,
         defaults: {
           from: '"nest-modules" <modules@nestjs.com>',
         },

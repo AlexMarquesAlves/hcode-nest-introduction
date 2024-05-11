@@ -113,18 +113,30 @@ export class AuthService {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async reset(password: string, token: string) {
-    // TODO Validar o token...
+    try {
+      const data: any = this.JWTService.verify(token, {
+        issuer: 'forget',
+        audience: 'user',
+      })
 
-    const id = 0
+      if (isNaN(Number(data.id))) {
+        throw new BadRequestException('Token é inválido')
+      }
 
-    const user = await this.prisma.user.update({
-      where: { id },
-      data: {
-        password,
-      },
-    })
+      const salt = await bcrypt.genSalt()
+      password = await bcrypt.hash(password, salt)
 
-    return this.createToken(user)
+      const user = await this.prisma.user.update({
+        where: { id: Number(data.id) },
+        data: {
+          password,
+        },
+      })
+
+      return this.createToken(user)
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
   }
 
   async register(data: AuthRegisterDTO) {

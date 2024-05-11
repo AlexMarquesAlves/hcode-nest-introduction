@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Post,
@@ -65,7 +66,11 @@ export class AuthController {
       `photo-${user.id}.png`,
     )
 
-    this.fileService.upload(photo, path)
+    try {
+      await this.fileService.upload(photo, path)
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
 
     return { success: true }
   }

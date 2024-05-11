@@ -28,7 +28,7 @@ const mailPass = process.env.MAIL_PASSWORD
       useFactory: () => ({
         transport: `smtps://${mailUser}:${mailPass}@${mailHost}`,
         defaults: {
-          from: '"nest-modules" <modules@nestjs.com>',
+          from: `"Hcode | Nest fundamentos" <${mailUser}>`,
         },
         template: {
           dir: __dirname + '/templates',

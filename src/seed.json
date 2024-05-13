@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Darnell Marquardt",
+    "email": "darnell.marquardt@example.com",
+    "password": "p@ssw0rd123",
+    "role": 1
+  },
+  {
+    "name": "Kristin Nicolas",
+    "email": "kristin.nicolas@example.com",
+    "password": "kristin123!",
+    "role": 2
+  },
+  {
+    "name": "Clara Keebler",
+    "email": "clara.keebler@example.com",
+    "password": "clara123456",
+    "role": 1
+  },
+  {
+    "name": "Douglas Adams",
+    "email": "douglas.adams@example.com",
+    "password": "douglas123!",
+    "role": 1
+  },
+  {
+    "name": "Maryse Lubowitz",
+    "email": "maryse.lubowitz@example.com",
+    "password": "maryse123456",
+    "role": 2
+  }
+]

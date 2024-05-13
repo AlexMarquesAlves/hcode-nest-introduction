@@ -1,17 +1,17 @@
 import {
-  Controller,
-  Post,
   Body,
-  Get,
-  Put,
-  Patch,
+  Controller,
   Delete,
-  UseInterceptors,
+  Get,
+  Patch,
+  Post,
+  Put,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common'
+import { Roles } from 'src/decorators/roles.decorator'
+import { Role } from 'src/enums/role.enum'
 import { ParamId } from '../decorators/param-id.decorator'
-import { Roles } from '../decorators/roles.decorator'
-import { Role } from '../enums/role.enum'
 import { AuthGuard } from '../guards/auth.guard'
 import { RoleGuard } from '../guards/role.guard'
 import { LogInterceptor } from '../interceptors/log.interceptor'

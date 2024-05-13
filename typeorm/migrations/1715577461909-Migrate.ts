@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
 export class Migrate1715577461909 implements MigrationInterface {
@@ -57,5 +55,7 @@ export class Migrate1715577461909 implements MigrationInterface {
     )
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('users')
+  }
 }

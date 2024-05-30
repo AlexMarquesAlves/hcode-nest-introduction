@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -35,7 +36,19 @@ describe('UserService', () => {
     })
   })
 
-  describe('Read', () => {})
+  describe('Read', () => {
+    it('should use list method successfully', async () => {
+      const result = await userService.list()
+
+      expect(result).toEqual(userEntityList)
+    })
+
+    it('should use show method successfully', async () => {
+      const result = await userService.show(1)
+
+      expect(result).toEqual(userEntityList[0])
+    })
+  })
   describe('Update', () => {})
   describe('Delete', () => {})
 })

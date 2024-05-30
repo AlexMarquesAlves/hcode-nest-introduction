@@ -3,6 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { createUserDTO } from '../testing/create-user-dto.mock'
+import { updatePatchUserDTO } from '../testing/update-patch-user-dto.mock'
+import { updatePutUserDTO } from '../testing/update-put-user-dto.mock'
 import { userEntityList } from '../testing/user-entity-list.mock'
 import { userRepositoryMock } from '../testing/user-repository.mock'
 import { UserEntity } from './entity/user.entity'
@@ -49,6 +51,18 @@ describe('UserService', () => {
       expect(result).toEqual(userEntityList[0])
     })
   })
-  describe('Update', () => {})
+  describe('Update', () => {
+    it('should use update method successfully', async () => {
+      const result = await userService.update(1, updatePutUserDTO)
+
+      expect(result).toEqual(userEntityList[0])
+    })
+
+    it('should use updatePartial method successfully', async () => {
+      const result = await userService.updatePartial(1, updatePatchUserDTO)
+
+      expect(result).toEqual(userEntityList[0])
+    })
+  })
   describe('Delete', () => {})
 })

@@ -46,25 +46,25 @@ describe('UserService', () => {
     })
   })
   describe('Read', () => {
-    test('method list', async () => {
+    it('should use method list successfully', async () => {
       const result = await userService.list()
 
       expect(result).toEqual(userEntityList)
     })
 
-    test('method show', async () => {
+    it('should use method method show successfully', async () => {
       const result = await userService.show(1)
 
       expect(result).toEqual(userEntityList[0])
     })
   })
   describe('Update', () => {
-    test('method update', async () => {
+    it('should use method method update successfully', async () => {
       const result = await userService.update(1, updatePutUserDTO)
 
       expect(result).toEqual(userEntityList[0])
     })
-    test('method updatePartial', async () => {
+    it('should use method method updatePartial successfully', async () => {
       const result = await userService.updatePartial(1, updatePatchUserDTO)
 
       expect(result).toEqual(userEntityList[0])
@@ -72,7 +72,7 @@ describe('UserService', () => {
   })
 
   describe('Delete', () => {
-    test('method delete', async () => {
+    it('should use method method delete successfully', async () => {
       const result = await userService.delete(1)
 
       expect(result).toEqual(true)

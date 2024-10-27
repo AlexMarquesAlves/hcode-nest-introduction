@@ -70,4 +70,12 @@ describe('UserService', () => {
       expect(result).toEqual(userEntityList[0])
     })
   })
+
+  describe('Delete', () => {
+    test('method delete', async () => {
+      const result = await userService.delete(1)
+
+      expect(result).toEqual(true)
+    })
+  })
 })

@@ -1,10 +1,14 @@
 {
+  "workbench.colorTheme": "Min Dark",
+  "workbench.iconTheme": "symbols",
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
     "source.fixAll": "always",
     "source.addMissingImports": "always",
     "source.organizeImports": "always"
   },
+  "editor.defaultFormatter": "biomejs.biome",
   "[typescript]": {
     "editor.formatOnSave": true,
     "typescript.preferences.importModuleSpecifier": "relative"

@@ -43,4 +43,17 @@ describe('UserService', () => {
       expect(result).toEqual(userEntityList[0])
     })
   })
+  describe('Read', () => {
+    test('method list', async () => {
+      const result = await userService.list()
+
+      expect(result).toEqual(userEntityList)
+    })
+
+    test('method show', async () => {
+      const result = await userService.show(1)
+
+      expect(result).toEqual(userEntityList[0])
+    })
+  })
 })

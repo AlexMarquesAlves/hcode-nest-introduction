@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing'
+import { Test, type TestingModule } from '@nestjs/testing'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 
@@ -17,7 +17,7 @@ describe('AppController', () => {
   describe('root', () => {
     it('should return "Hello World! from that environment"', () => {
       expect(appController.getHello()).toBe(
-        `Hello World! from '${process.env.NODE_ENV}'`,
+        `Hello World! from '${process.env.NODE_ENV}'`
       )
     })
   })

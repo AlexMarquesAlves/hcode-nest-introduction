@@ -1,10 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing'
+import { Test, type TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import type { Repository } from 'typeorm'
 import { Role } from '../enums/role.enum'
 import { userEntityList } from '../testing/user-entity-list.mock'
 import { userRepositoryMock } from '../testing/user-repository.mock'
-import { CreateUserDTO } from './dto/create-user.dto'
+import type { CreateUserDTO } from './dto/create-user.dto'
 import { UserEntity } from './entity/user.entity'
 import { UserService } from './user.service'
 

@@ -2,6 +2,8 @@ import { Test, type TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import type { Repository } from 'typeorm'
 import { Role } from '../enums/role.enum'
+import { updatePatchUserDTO } from '../testing/update-patch-user-dto.mock'
+import { updatePutUserDTO } from '../testing/update-put-user-dto.mock'
 import { userEntityList } from '../testing/user-entity-list.mock'
 import { userRepositoryMock } from '../testing/user-repository.mock'
 import type { CreateUserDTO } from './dto/create-user.dto'
@@ -52,6 +54,18 @@ describe('UserService', () => {
 
     test('method show', async () => {
       const result = await userService.show(1)
+
+      expect(result).toEqual(userEntityList[0])
+    })
+  })
+  describe('Update', () => {
+    test('method update', async () => {
+      const result = await userService.update(1, updatePutUserDTO)
+
+      expect(result).toEqual(userEntityList[0])
+    })
+    test('method updatePartial', async () => {
+      const result = await userService.updatePartial(1, updatePatchUserDTO)
 
       expect(result).toEqual(userEntityList[0])
     })

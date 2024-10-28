@@ -1,21 +1,21 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common'
-import { CreateUserDTO } from './dto/create-user.dto'
-import { UpdatePatchUserDTO } from './dto/update-patch-user.dto'
-import { UpdatePutUserDTO } from './dto/update-put-user.dto'
-import * as bcrypt from 'bcrypt'
-import { UserEntity } from './entity/user.entity'
-import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
+import * as bcrypt from 'bcrypt'
+import type { Repository } from 'typeorm'
+import type { CreateUserDTO } from './dto/create-user.dto'
+import type { UpdatePatchUserDTO } from './dto/update-patch-user.dto'
+import type { UpdatePutUserDTO } from './dto/update-put-user.dto'
+import { UserEntity } from './entity/user.entity'
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
+    private usersRepository: Repository<UserEntity>
   ) {}
 
   async create(data: CreateUserDTO) {
@@ -52,7 +52,7 @@ export class UserService {
 
   async update(
     id: number,
-    { email, name, password, birthAt, role }: UpdatePutUserDTO,
+    { email, name, password, birthAt, role }: UpdatePutUserDTO
   ) {
     await this.exists(id)
 
@@ -73,10 +73,11 @@ export class UserService {
 
   async updatePartial(
     id: number,
-    { email, name, password, birthAt, role }: UpdatePatchUserDTO,
+    { email, name, password, birthAt, role }: UpdatePatchUserDTO
   ) {
     await this.exists(id)
 
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const data: any = {}
 
     if (birthAt) {

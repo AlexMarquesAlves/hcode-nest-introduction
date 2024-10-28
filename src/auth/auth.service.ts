@@ -112,7 +112,9 @@ export class AuthService {
     return { success: true }
   }
 
-  async reset(password: string, token: string) {
+  async reset(password: string | undefined, token: string) {
+    let localPassword = password
+
     try {
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       const data: any = this.jwtService.verify(token, {
@@ -125,7 +127,7 @@ export class AuthService {
       }
 
       const salt = await bcrypt.genSalt()
-      password = await bcrypt.hash(password, salt)
+      localPassword = await bcrypt.hash(password, salt)
 
       await this.usersRepository.update(Number(data.id), {
         password,

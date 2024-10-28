@@ -1,7 +1,7 @@
 import {
-  createParamDecorator,
-  ExecutionContext,
+  type ExecutionContext,
   NotFoundException,
+  createParamDecorator,
 } from '@nestjs/common'
 
 export const User = createParamDecorator(
@@ -11,13 +11,15 @@ export const User = createParamDecorator(
     if (request.user) {
       if (filter) {
         return request.user[filter]
+        // biome-ignore lint/style/noUselessElse: <explanation>
       } else {
         return request.user
       }
+      // biome-ignore lint/style/noUselessElse: <explanation>
     } else {
       throw new NotFoundException(
-        'Usuário não encontrado no Request. Use o AuthGuard para obter o usuário.',
+        'Usuário não encontrado no Request. Use o AuthGuard para obter o usuário.'
       )
     }
-  },
+  }
 )

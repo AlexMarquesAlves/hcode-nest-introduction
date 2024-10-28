@@ -15,10 +15,10 @@ import { ParamId } from '../decorators/param-id.decorator'
 import { AuthGuard } from '../guards/auth.guard'
 import { RoleGuard } from '../guards/role.guard'
 import { LogInterceptor } from '../interceptors/log.interceptor'
-import { CreateUserDTO } from './dto/create-user.dto'
-import { UpdatePatchUserDTO } from './dto/update-patch-user.dto'
-import { UpdatePutUserDTO } from './dto/update-put-user.dto'
-import { UserService } from './user.service'
+import type { CreateUserDTO } from './dto/create-user.dto'
+import type { UpdatePatchUserDTO } from './dto/update-patch-user.dto'
+import type { UpdatePutUserDTO } from './dto/update-put-user.dto'
+import type { UserService } from './user.service'
 
 @Roles(Role.Admin)
 @UseGuards(AuthGuard, RoleGuard)

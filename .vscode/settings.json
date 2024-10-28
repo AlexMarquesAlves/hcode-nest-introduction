@@ -14,5 +14,5 @@
     "typescript.preferences.importModuleSpecifier": "relative"
   },
   "material-icon-theme.activeIconPack": "nest",
-  "cSpell.words": ["posttest", "preprod"]
+  "cSpell.words": ["posttest", "preprod", "typeorm"]
 }

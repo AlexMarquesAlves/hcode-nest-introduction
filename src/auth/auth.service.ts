@@ -1,13 +1,13 @@
+import type { MailerService } from '@nestjs-modules/mailer/dist'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.exception'
-import { JwtService } from '@nestjs/jwt'
-import { AuthRegisterDTO } from './dto/auth-register.dto'
-import * as bcrypt from 'bcrypt'
-import { MailerService } from '@nestjs-modules/mailer/dist'
-import { Repository } from 'typeorm'
+import type { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
-import { UserService } from '../user/user.service'
+import * as bcrypt from 'bcrypt'
+import type { Repository } from 'typeorm'
 import { UserEntity } from '../user/entity/user.entity'
+import type { UserService } from '../user/user.service'
+import type { AuthRegisterDTO } from './dto/auth-register.dto'
 
 @Injectable()
 export class AuthService {
@@ -19,7 +19,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly mailer: MailerService,
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
+    private usersRepository: Repository<UserEntity>
   ) {}
 
   createToken(user: UserEntity) {
@@ -35,7 +35,7 @@ export class AuthService {
           subject: String(user.id),
           issuer: this.issuer,
           audience: this.audience,
-        },
+        }
       ),
     }
   }
@@ -96,7 +96,7 @@ export class AuthService {
         subject: String(user.id),
         issuer: 'forget',
         audience: 'users',
-      },
+      }
     )
 
     await this.mailer.sendMail({
@@ -114,12 +114,13 @@ export class AuthService {
 
   async reset(password: string, token: string) {
     try {
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       const data: any = this.jwtService.verify(token, {
         issuer: 'forget',
         audience: 'users',
       })
 
-      if (isNaN(Number(data.id))) {
+      if (Number.isNaN(Number(data.id))) {
         throw new BadRequestException('Token é inválido.')
       }
 
@@ -139,6 +140,7 @@ export class AuthService {
   }
 
   async register(data: AuthRegisterDTO) {
+    // biome-ignore lint/performance/noDelete: <explanation>
     delete data.role
 
     const user = await this.userService.create(data)

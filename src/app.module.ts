@@ -44,7 +44,7 @@ const mailPort = process.env.MAIL_PORT
           from: `"Hcode | Nest fundamentos" <${mailUser}>`,
         },
         template: {
-          dir: __dirname + '/templates',
+          dir: `${__dirname}/templates`,
           adapter: new PugAdapter(),
           options: {
             strict: true,

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { PathLike } from 'fs'
-import { writeFile } from 'fs/promises'
-import { join } from 'path'
+import type { PathLike } from 'node:fs'
+import { writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
 
 @Injectable()
 export class FileService {

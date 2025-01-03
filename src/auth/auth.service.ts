@@ -1,25 +1,25 @@
-import type { MailerService } from '@nestjs-modules/mailer/dist'
-import { BadRequestException, Injectable } from '@nestjs/common'
-import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.exception'
-import type { JwtService } from '@nestjs/jwt'
-import { InjectRepository } from '@nestjs/typeorm'
-import * as bcrypt from 'bcrypt'
-import type { Repository } from 'typeorm'
-import { UserEntity } from '../user/entity/user.entity'
-import type { UserService } from '../user/user.service'
-import type { AuthRegisterDTO } from './dto/auth-register.dto'
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.exception';
+import { JwtService } from '@nestjs/jwt';
+import { AuthRegisterDTO } from './dto/auth-register.dto';
+import * as bcrypt from 'bcrypt';
+import { MailerService } from '@nestjs-modules/mailer/dist';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserService } from '../user/user.service';
+import { UserEntity } from '../user/entity/user.entity';
 
 @Injectable()
 export class AuthService {
-  private issuer = 'login'
-  private audience = 'users'
+  private issuer = 'login';
+  private audience = 'users';
 
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
     private readonly mailer: MailerService,
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>
+    private usersRepository: Repository<UserEntity>,
   ) {}
 
   createToken(user: UserEntity) {
@@ -35,9 +35,9 @@ export class AuthService {
           subject: String(user.id),
           issuer: this.issuer,
           audience: this.audience,
-        }
+        },
       ),
-    }
+    };
   }
 
   checkToken(token: string) {
@@ -45,46 +45,46 @@ export class AuthService {
       const data = this.jwtService.verify(token, {
         issuer: this.issuer,
         audience: this.audience,
-      })
+      });
 
-      return data
+      return data;
     } catch (e) {
-      throw new BadRequestException(e)
+      throw new BadRequestException(e);
     }
   }
 
   isValidToken(token: string) {
     try {
-      this.checkToken(token)
-      return true
+      this.checkToken(token);
+      return true;
     } catch (e) {
-      return false
+      return false;
     }
   }
 
   async login(email: string, password: string) {
     const user = await this.usersRepository.findOneBy({
       email,
-    })
+    });
 
     if (!user) {
-      throw new UnauthorizedException('E-mail e/ou senha incorretos.')
+      throw new UnauthorizedException('E-mail e/ou senha incorretos.');
     }
 
     if (!(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('E-mail e/ou senha incorretos.')
+      throw new UnauthorizedException('E-mail e/ou senha incorretos.');
     }
 
-    return this.createToken(user)
+    return this.createToken(user);
   }
 
   async forget(email: string) {
     const user = await this.usersRepository.findOneBy({
       email,
-    })
+    });
 
     if (!user) {
-      throw new UnauthorizedException('E-mail está incorreto.')
+      throw new UnauthorizedException('E-mail está incorreto.');
     }
 
     const token = this.jwtService.sign(
@@ -96,8 +96,8 @@ export class AuthService {
         subject: String(user.id),
         issuer: 'forget',
         audience: 'users',
-      }
-    )
+      },
+    );
 
     await this.mailer.sendMail({
       subject: 'Recuperação de Senha',
@@ -107,46 +107,42 @@ export class AuthService {
         name: user.name,
         token,
       },
-    })
+    });
 
-    return { success: true }
+    return { success: true };
   }
 
-  async reset(password: string | undefined, token: string) {
-    let localPassword = password
-
+  async reset(password: string, token: string) {
     try {
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       const data: any = this.jwtService.verify(token, {
         issuer: 'forget',
         audience: 'users',
-      })
+      });
 
-      if (Number.isNaN(Number(data.id))) {
-        throw new BadRequestException('Token é inválido.')
+      if (isNaN(Number(data.id))) {
+        throw new BadRequestException('Token é inválido.');
       }
 
-      const salt = await bcrypt.genSalt()
-      localPassword = await bcrypt.hash(password, salt)
+      const salt = await bcrypt.genSalt();
+      password = await bcrypt.hash(password, salt);
 
       await this.usersRepository.update(Number(data.id), {
         password,
-      })
+      });
 
-      const user = await this.userService.show(Number(data.id))
+      const user = await this.userService.show(Number(data.id));
 
-      return this.createToken(user)
+      return this.createToken(user);
     } catch (e) {
-      throw new BadRequestException(e)
+      throw new BadRequestException(e);
     }
   }
 
   async register(data: AuthRegisterDTO) {
-    // biome-ignore lint/performance/noDelete: <explanation>
-    delete data.role
+    delete data.role;
 
-    const user = await this.userService.create(data)
+    const user = await this.userService.create(data);
 
-    return this.createToken(user)
+    return this.createToken(user);
   }
 }

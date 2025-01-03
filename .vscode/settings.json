@@ -1,5 +1,4 @@
 {
-  "workbench.colorTheme": "Min Dark",
   "workbench.iconTheme": "symbols",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
@@ -14,5 +13,9 @@
     "typescript.preferences.importModuleSpecifier": "relative"
   },
   "material-icon-theme.activeIconPack": "nest",
-  "cSpell.words": ["posttest", "preprod", "typeorm"]
+  "cSpell.words": [
+    "posttest",
+    "preprod",
+    "typeorm"
+  ]
 }

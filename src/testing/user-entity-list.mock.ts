@@ -1,5 +1,5 @@
-import { Role } from '../enums/role.enum'
-import type { UserEntity } from '../user/entity/user.entity'
+import { Role } from '../enums/role.enum';
+import { UserEntity } from '../user/entity/user.entity';
 
 export const userEntityList: UserEntity[] = [
   {
@@ -32,4 +32,4 @@ export const userEntityList: UserEntity[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
-]
+];

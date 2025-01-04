@@ -1,6 +1,6 @@
-import { getRepositoryToken } from '@nestjs/typeorm'
-import { UserEntity } from '../user/entity/user.entity'
-import { userEntityList } from './user-entity-list.mock'
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { UserEntity } from '../user/entity/user.entity';
+import { userEntityList } from './user-entity-list.mock';
 
 export const userRepositoryMock = {
   provide: getRepositoryToken(UserEntity),
@@ -13,4 +13,4 @@ export const userRepositoryMock = {
     update: jest.fn(),
     delete: jest.fn(),
   },
-}
+};

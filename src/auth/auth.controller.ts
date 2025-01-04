@@ -8,22 +8,22 @@ import {
   ParseFilePipe,
   FileTypeValidator,
   MaxFileSizeValidator,
-} from '@nestjs/common'
-import { UploadedFile, UploadedFiles } from '@nestjs/common/decorators'
+} from '@nestjs/common';
+import { UploadedFile, UploadedFiles } from '@nestjs/common/decorators';
 import {
   FileInterceptor,
   FilesInterceptor,
   FileFieldsInterceptor,
-} from '@nestjs/platform-express'
-import { AuthService } from './auth.service'
-import { AuthForgetDTO } from './dto/auth-forget.dto'
-import { AuthLoginDTO } from './dto/auth-login.dto'
-import { AuthRegisterDTO } from './dto/auth-register.dto'
-import { AuthResetDTO } from './dto/auth-reset.dto'
-import { FileService } from '../file/file.service'
-import { AuthGuard } from '../guards/auth.guard'
-import { User } from '../decorators/user.decorator'
-import { UserEntity } from '../user/entity/user.entity'
+} from '@nestjs/platform-express';
+import { AuthService } from './auth.service';
+import { AuthForgetDTO } from './dto/auth-forget.dto';
+import { AuthLoginDTO } from './dto/auth-login.dto';
+import { AuthRegisterDTO } from './dto/auth-register.dto';
+import { AuthResetDTO } from './dto/auth-reset.dto';
+import { FileService } from '../file/file.service';
+import { AuthGuard } from '../guards/auth.guard';
+import { User } from '../decorators/user.decorator';
+import { UserEntity } from '../user/entity/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -34,28 +34,28 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() { email, password }: AuthLoginDTO) {
-    return this.authService.login(email, password)
+    return this.authService.login(email, password);
   }
 
   @Post('register')
   async register(@Body() body: AuthRegisterDTO) {
-    return this.authService.register(body)
+    return this.authService.register(body);
   }
 
   @Post('forget')
   async forget(@Body() { email }: AuthForgetDTO) {
-    return this.authService.forget(email)
+    return this.authService.forget(email);
   }
 
   @Post('reset')
   async reset(@Body() { password, token }: AuthResetDTO) {
-    return this.authService.reset(password, token)
+    return this.authService.reset(password, token);
   }
 
   @UseGuards(AuthGuard)
   @Post('me')
   async me(@User() user: UserEntity) {
-    return user
+    return user;
   }
 
   @UseInterceptors(FileInterceptor('file'))
@@ -73,15 +73,15 @@ export class AuthController {
     )
     photo: Express.Multer.File,
   ) {
-    const filename = `photo-${user.id}.png`
+    const filename = `photo-${user.id}.png`;
 
     try {
-      await this.fileService.upload(photo, filename)
+      await this.fileService.upload(photo, filename);
     } catch (e) {
-      throw new BadRequestException(e)
+      throw new BadRequestException(e);
     }
 
-    return photo
+    return photo;
   }
 
   @UseInterceptors(FilesInterceptor('files'))
@@ -91,7 +91,7 @@ export class AuthController {
     @User() user,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return files
+    return files;
   }
 
   @UseInterceptors(
@@ -113,6 +113,6 @@ export class AuthController {
     @UploadedFiles()
     files: { photo: Express.Multer.File; documents: Express.Multer.File[] },
   ) {
-    return files
+    return files;
   }
 }

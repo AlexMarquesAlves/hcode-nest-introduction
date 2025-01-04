@@ -1,46 +1,71 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { getRepositoryToken } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { Role } from '../enums/role.enum'
-import { userEntityList } from '../testing/user-entity-list.mock'
-import { userRepositoryMock } from '../testing/user-repository.mock'
-import { CreateUserDTO } from './dto/create-user.dto'
-import { UserEntity } from './entity/user.entity'
-import { UserService } from './user.service'
+import { Test, TestingModule } from '@nestjs/testing';
+import { UserService } from './user.service';
+import { userRepositoryMock } from '../testing/user-repository.mock';
+import { userEntityList } from '../testing/user-entity-list.mock';
+import { createUserDTO } from '../testing/create-user-dto.mock';
+import { UserEntity } from './entity/user.entity';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { updatePutUserDTO } from '../testing/update-put-user-dto.mock';
+import { updatePatchUserDTO } from '../testing/update-patch-user-dto.mock';
 
 describe('UserService', () => {
-  let userService: UserService
-  let userRepository: Repository<UserEntity>
+  let userService: UserService;
+  let userRepository: Repository<UserEntity>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [UserService, userRepositoryMock],
-    }).compile()
+    }).compile();
 
-    userService = module.get<UserService>(UserService)
-    userRepository = module.get(getRepositoryToken(UserEntity))
-  })
+    userService = module.get<UserService>(UserService);
+    userRepository = module.get(getRepositoryToken(UserEntity));
+  });
 
-  it('should validate the definition successfully', () => {
-    expect(userService).toBeDefined()
-    expect(userRepository).toBeDefined()
-  })
+  test('Validar a definição', () => {
+    expect(userService).toBeDefined();
+    expect(userRepository).toBeDefined();
+  });
 
   describe('Create', () => {
-    it('should use create method successfully', async () => {
-      jest.spyOn(userRepository, 'exist').mockResolvedValueOnce(false)
+    test('method create', async () => {
+      jest.spyOn(userRepository, 'exist').mockResolvedValueOnce(false);
 
-      const data: CreateUserDTO = {
-        birthAt: '2000-01-01',
-        email: 'joao@hcode.com.br',
-        name: 'Joao rangel',
-        password: '123456',
-        role: Role.User,
-      }
+      const result = await userService.create(createUserDTO);
 
-      const result = await userService.create(data)
+      expect(result).toEqual(userEntityList[0]);
+    });
+  });
+  describe('Read', () => {
+    test('method list', async () => {
+      const result = await userService.list();
 
-      expect(result).toEqual(userEntityList[0])
-    })
-  })
-})
+      expect(result).toEqual(userEntityList);
+    });
+
+    test('method show', async () => {
+      const result = await userService.show(1);
+
+      expect(result).toEqual(userEntityList[0]);
+    });
+  });
+  describe('Update', () => {
+    test('method update', async () => {
+      const result = await userService.update(1, updatePutUserDTO);
+
+      expect(result).toEqual(userEntityList[0]);
+    });
+    test('method updatePartial', async () => {
+      const result = await userService.updatePartial(1, updatePatchUserDTO);
+
+      expect(result).toEqual(userEntityList[0]);
+    });
+  });
+  describe('Delete', () => {
+    test('method delete', async () => {
+      const result = await userService.delete(1);
+
+      expect(result).toEqual(true);
+    });
+  });
+});
